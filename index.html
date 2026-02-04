@@ -55,6 +55,14 @@
         .banner-image-container { margin-top: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); }
         .banner-image-container img { width: 100%; height: auto; display: block; }
 
+        /* Dashboard Cards */
+        .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 40px; }
+        .dashboard-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); border-left: 4px solid #3bc4d4; transition: transform 0.3s, box-shadow 0.3s; }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(59, 196, 212, 0.2); }
+        .card-icon { font-size: 40px; margin-bottom: 15px; }
+        .card-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+        .card-description { color: #666; font-size: 14px; line-height: 1.6; }
+
         /* Footer */
         .footer { background-color: #0b1f2a; color: white; padding: 30px 0; }
         .footer-content { max-width: 1400px; margin: 0 auto; padding: 0 40px; text-align: center; }
@@ -65,6 +73,7 @@
             .top-header-content, .cyan-bar-content, .content-wrapper { padding: 0 20px; }
             .logo-text { font-size: 20px; }
             .page-title { font-size: 32px; }
+            .dashboard-cards { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -113,8 +122,8 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="content-wrapper">
-            <!-- Breadcrumb -->
-            <div class="breadcrumb">
+            <!-- Breadcrumb (shown only when logged out) -->
+            <div class="breadcrumb" id="breadcrumb">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display: inline; vertical-align: middle;">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
@@ -130,9 +139,48 @@
                 Ignition Technology and its partners and can be accessed with sign in credentials.
             </p>
 
-            <!-- Banner Image -->
-            <div class="banner-image-container">
+            <!-- Banner Image (shown only when logged out) -->
+            <div class="banner-image-container" id="bannerImage">
                 <img src="enetworks.png" alt="Ignition Technology - Cybersecurity Distribution">
+            </div>
+
+            <!-- Dashboard Cards (shown only when logged in) -->
+            <div class="dashboard-cards" id="dashboardCards" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="card-icon">📦</div>
+                    <div class="card-title">Order Management</div>
+                    <div class="card-description">Track your orders, view order history, and manage deliveries.</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Inventory</div>
+                    <div class="card-description">Real-time stock availability across our product portfolio.</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">Pricing & Quotes</div>
+                    <div class="card-description">View partner pricing and generate custom quotes.</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">📄</div>
+                    <div class="card-title">Invoices</div>
+                    <div class="card-description">Access and download your invoice history.</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-title">Resources</div>
+                    <div class="card-description">Marketing materials, datasheets, and technical documentation.</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">🎓</div>
+                    <div class="card-title">Training</div>
+                    <div class="card-description">Access vendor training programs and certifications.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -185,9 +233,16 @@
         // Update UI for logged in state
         function setLoggedInUI(userInfo) {
             document.getElementById('pageTitle').innerHTML = 
-                'Welcome to your <span class="highlight">Partner Portal.</span>';
+                'Welcome to your <span class="highlight">Partner Dashboard</span>';
             document.getElementById('pageDescription').textContent = 
-                'You are now securely authenticated. Access your orders, invoices, and real-time stock information.';
+                'You are now securely authenticated. Access your partner resources, track orders, view real-time stock levels, and manage your account information.';
+
+            // Hide login elements
+            document.getElementById('breadcrumb').style.display = 'none';
+            document.getElementById('bannerImage').style.display = 'none';
+            
+            // Show dashboard elements
+            document.getElementById('dashboardCards').style.display = 'grid';
 
             const dropdown = document.getElementById('dropdownMenu');
             dropdown.innerHTML = `
@@ -203,6 +258,13 @@
                 'Login to your <span class="highlight">Partner Portal.</span>';
             document.getElementById('pageDescription').textContent = 
                 'On this partner portal you can access services/features & information you may need. It contains features such as Order tracking, Available stocks, Price list, Invoices. This partner portal is a digital sharing mechanism and information center between Ignition Technology and its partners and can be accessed with sign in credentials.';
+
+            // Show login elements
+            document.getElementById('breadcrumb').style.display = 'block';
+            document.getElementById('bannerImage').style.display = 'block';
+            
+            // Hide dashboard elements
+            document.getElementById('dashboardCards').style.display = 'none';
 
             const dropdown = document.getElementById('dropdownMenu');
             dropdown.innerHTML = `
